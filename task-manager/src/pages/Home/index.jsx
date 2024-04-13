@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const Home = ({ handleUserLogged }) => {
   const [newBoard, setNewBoard] = useState(false);
+  const [title, setTitle] = useState(false);
 
   return (
     <div className="page home center flex column start-center gap-70 mt-30">
@@ -36,7 +37,12 @@ const Home = ({ handleUserLogged }) => {
               />
             </div>
             <div className="popup-body flex column mt-30 gap-30 center">
-              <input className="border button-padding semi-rounded sm-text" type="text" placeholder="Board title" />
+              <input
+                onChange={(e)=>setTitle(e.target.value)}
+                className="border button-padding semi-rounded sm-text"
+                type="text"
+                placeholder="Board title"
+              />
               <button className="primary-bg white-text button-padding bold semi-rounded sm-text">Create</button>
             </div>
           </div>

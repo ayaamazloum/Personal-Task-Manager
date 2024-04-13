@@ -3,7 +3,7 @@
 }
 
 .light-bg {
-  background-color: #f0f0f0;
+  background-color: #3d81811f;
 }
 
 .white-bg {
@@ -47,5 +47,5 @@
 }
 
 .primary-shadow {
-  box-shadow: 2px 2px 8px 0 #63636340;
+  box-shadow: 1px 1px 4px 0 #63636340;
 }
