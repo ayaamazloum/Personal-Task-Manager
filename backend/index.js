@@ -9,6 +9,9 @@ const PORT = process.env.PORT;
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
+const boardRouter = require("./routes/board.routes");
+app.use("/board", boardRouter);
+
 app.listen(PORT, (err) => { 
     if (err) throw new Error(err);
     console.log(`Server is listining on port ${PORT}`);
