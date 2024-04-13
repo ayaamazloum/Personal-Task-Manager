@@ -180,7 +180,7 @@ button {
 }
 
 .small-card-padding {
-  padding: 10px 15px;
+  padding: 20px 25px;
 }
 
 .button-padding {
@@ -206,10 +206,6 @@ input:focus {
   border: 1px solid rgb(0, 149, 246);
 }
 
-.page {
-  padding-left: 241px;
-}
-
 .popup {
   position: absolute;
   top: 0;
@@ -224,17 +220,4 @@ input:focus {
   background-color: white;
   width: fit-content;
   padding: 30px;
-}
-
-@media (max-width: 1200px) {
-  .page {
-      padding-left: 66px;
-  }
-}
-
-@media (max-width: 768px) {
-  .page {
-      padding-left: 0;
-      padding-bottom: 50px;
-  }
 }
