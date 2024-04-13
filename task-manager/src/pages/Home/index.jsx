@@ -1,6 +1,10 @@
-const Home = () => {
+import Logout from "../../Components/Logout"
+
+const Home = ({ handleUserLogged }) => {
   return (
-    <div>Home</div>
+    <div>
+      <Logout handleUserLogged={handleUserLogged} />
+    </div>
   )
 }
 
