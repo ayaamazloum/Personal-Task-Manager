@@ -1,9 +1,5 @@
 .primary-bg {
-  background-color: rgb(255, 48, 64);
-}
-
-.secondary-bg {
-  background-color: rgb(0, 149, 246);
+  background-color: #129898;
 }
 
 .light-bg {
@@ -19,11 +15,7 @@
 }
 
 .primary-text {
-  color: rgb(255, 48, 64);
-}
-
-.secondary-text {
-  color: rgb(0, 149, 246);
+  color: #129898;
 }
 
 .light-text {
@@ -42,6 +34,10 @@
   color: #2cda5c;
 }
 
+.red-text {
+  color: #ce2929;
+}
+
 .yellow-text {
   color: #e2c012;
 }
@@ -51,5 +47,5 @@
 }
 
 .primary-shadow {
-  box-shadow: 0 0 20px 0 #00000040;
+  box-shadow: 2px 2px 8px 0 #63636340;
 }

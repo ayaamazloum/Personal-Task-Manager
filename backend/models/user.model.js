@@ -15,7 +15,14 @@ const columnSchema = ({
 
 const boardSchema = new mongoose.Schema({
     title: { type: String, required: "Title is required" },
-    columns: [columnSchema]
+    columns: {
+        type: [columnSchema],
+        default: [
+            { title: 'Todo', tasks: [] },
+            { title: 'In Progress', tasks: [] },
+            { title: 'Done', tasks: [] }
+        ]
+    }
 });
 
 const userSchema = new mongoose.Schema({

@@ -48,13 +48,13 @@ const SignupForm = () => {
                     setCredentials({ ...credentials, password: e.target.value });
                     setErrors({...errors, password: e.target.value.length > 5 ? '' : 'Short password' });}}
                     className='auth-input border semi-rounded' type='password' placeholder='Password' />
-                {errors.password !== '' && <p className="primary-text xsm-text self-start mb-10">{errors.password}</p>}
+                {errors.password !== '' && <p className="red-text xsm-text self-start mb-10">{errors.password}</p>}
 
-                {error !== '' && <p className="primary-text xsm-text self-start mb-10">{error}</p>}
+                {error !== '' && <p className="red-text xsm-text self-start mb-10">{error}</p>}
                 {note !== '' && <p className="green-text xsm-text self-start mb-10">{note}</p>}
             </div>
             
-            <button className='auth-button secondary-bg white-text bold sm-text rounded' onClick={signup}>Sign Up</button>
+            <button className='auth-button primary-bg white-text bold sm-text rounded' onClick={signup}>Sign Up</button>
         </>
     )
 }

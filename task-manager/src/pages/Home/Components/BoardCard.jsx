@@ -2,8 +2,8 @@ import React from 'react'
 
 const BoardCard = () => {
   return (
-      <div className='border small-card-padding rounded pointer'>
-        Board Title
+    <div className='primary-border small-card-padding rounded pointer primary-shadow'>
+      Board Title
     </div>
   )
 }
