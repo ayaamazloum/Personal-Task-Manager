@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
 
-const getBoardContent = async () => {
+const getBoard = async () => {
     const { id } = req.params;
     try {
         const board = await req.user.boards.findById(id);
@@ -16,5 +16,5 @@ const getBoardContent = async () => {
 };
 
 module.exports = {
-    getBoardContent,
+    getBoard,
 }
