@@ -1,3 +1,11 @@
 .board-column {
     width: 300px;
 }
+
+.edit-icon {
+    fill: #969696;
+}
+
+.edit-icon:hover {
+    fill: #129898;
+}
