@@ -1,8 +1,8 @@
 const express = require("express");
 const isAuthenticated = require("../middlewares/auth.middleware");
-const boardController = require("../controllers/board.controller");
+const userController = require("../controllers/user.controller");
 const router = express.Router();
 
-router.post("/", isAuthenticated, boardController.createBoard);
+router.get("/", isAuthenticated, userController.getAllData);
 
 module.exports = router;

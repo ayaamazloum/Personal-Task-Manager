@@ -5,23 +5,27 @@ const taskSchema = new mongoose.Schema({
     title: { type: String, required: "Title is required" },
     description: { type: String, required: "Description is required" },
     attachments: [{ type: String }],
-    tags: [{ type: String }]
+    column: {
+        type: String,
+        required: "Column is required",
+        default: "Todo"
+    },
 });
 
-const columnSchema = ({
-    title: { type: String, required: "Title is required" },
+const tagSchema = ({
+    name: { type: String, required: "Name is required" },
     tasks: [taskSchema]
 });
 
 const boardSchema = new mongoose.Schema({
     title: { type: String, required: "Title is required" },
     columns: {
-        type: [columnSchema],
-        default: [
-            { title: 'Todo', tasks: [] },
-            { title: 'In Progress', tasks: [] },
-            { title: 'Done', tasks: [] }
-        ]
+        type: [String],
+        default: [ "Todo", "In Progress", "Done" ]
+    },
+    tags: {
+        type: [tagSchema],
+        default: [{ name: "Work", tasks: [] }]
     }
 });
 

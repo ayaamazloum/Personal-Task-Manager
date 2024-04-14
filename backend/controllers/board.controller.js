@@ -1,20 +1,18 @@
 const User = require("../models/user.model");
 
-const getBoard = async () => {
-    const { id } = req.params;
+const createBoard = async (req, res) => {
+    const user = req.user;
     try {
-        const board = await req.user.boards.findById(id);
-        if (!board) {
-            return res.status(404).send("Board not found");
-        }
-
-        return res.status(200).json({ board });
+        console.log(req.body);
+        user.boards?.push({ title: req.body.title });
+        const updatedUser = await user.save();
+        return res.status(201).send("Board added successfully");
     } catch (error) {
-        console.error('Get all tasks error:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        console.error('Create board error:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };
 
 module.exports = {
-    getBoard,
+    createBoard,
 }

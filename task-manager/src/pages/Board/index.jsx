@@ -3,7 +3,7 @@ import Logout from "../../Components/Logout";
 import Column from "./Components/Column";
 import { useState } from "react";
 
-const Board = ({ handleUserLogged }) => {
+const Board = () => {
   const [creatingTask, setCreatingTask] = useState(false);
   const [newTask, setNewTask] = useState({
     title: "",
@@ -13,7 +13,7 @@ const Board = ({ handleUserLogged }) => {
 
   return (
     <div className="flex column start-center mt-30 gap-40">
-      <Logout handleUserLogged={handleUserLogged} />
+      <Logout />
       <h2>Board Title</h2>
       <button
         onClick={() => setCreatingTask(true)}

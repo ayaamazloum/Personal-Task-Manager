@@ -11,6 +11,9 @@ const PORT = process.env.PORT;
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
+const userRouter = require("./routes/user.routes");
+app.use("/user", userRouter);
+
 const boardRouter = require("./routes/board.routes");
 app.use("/board", boardRouter);
 

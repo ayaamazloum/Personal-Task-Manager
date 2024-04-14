@@ -6,15 +6,16 @@ import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    if (localStorage.getItem("token") !== undefined) navigate("/");
-  });
-
+  
   const [isLogin, setIsLogin] = useState(true);
-
+  
   const handleIsLogin = (value) => {
     setIsLogin(value);
   };
+  
+  useEffect(() => {
+    if (localStorage.getItem("token")) navigate("/");
+  });
 
   return (
     <div className="flex column center gap-10 mt-20 mb-20">

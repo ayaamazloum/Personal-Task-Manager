@@ -3,10 +3,10 @@ const User = require("../models/user.model");
 
 const isAuthenticated = async (req, res, next) => {
     try {
-        const token = req.header.authorization?.split(" ")[1];
+        const token = req.headers.authorization?.split(" ")[1];
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        const user = await User.findById(decoded._id, { new: true }).select("-password");
-        
+        const user = await User.findById(decoded._id).select("-password");
+        console.log(user);
         if (!user) throw new Error("User not found");
 
         req.user = user;

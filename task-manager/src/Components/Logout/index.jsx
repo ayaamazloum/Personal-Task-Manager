@@ -3,13 +3,12 @@ import sendRequest from "../../core/tools/remote/request"
 import { requestMehods } from "../../core/enums/requestMethods"
 import { useNavigate } from "react-router-dom"
 
-const Logout = ({ handleUserLogged }) => {
+const Logout = () => {
     const navigate = useNavigate();
 
     const logout = async () => {
         localStorage.removeItem('token');
-        handleUserLogged(false);
-        navigate("/");
+        navigate("/auth");
     }
     
     return (

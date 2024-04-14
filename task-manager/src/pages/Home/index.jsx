@@ -3,13 +3,13 @@ import Logout from "../../Components/Logout";
 import BoardCard from "./Components/BoardCard";
 import { useState } from "react";
 
-const Home = ({ handleUserLogged }) => {
+const Home = () => {
   const [newBoard, setNewBoard] = useState(false);
   const [title, setTitle] = useState(false);
 
   return (
     <div className="page home center flex column start-center gap-70 mt-30">
-      <Logout handleUserLogged={handleUserLogged} />
+      <Logout />
       <h1>Boards</h1>
       <button
         onClick={() => setNewBoard(true)}
