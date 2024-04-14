@@ -5,5 +5,7 @@ const router = express.Router();
 
 router.post("/", isAuthenticated, boardController.createBoard);
 router.post("/tag", isAuthenticated, boardController.createTag);
+router.post("/task", isAuthenticated, boardController.createTask);
+router.put("/task/:id", isAuthenticated, boardController.updateTask);
 
 module.exports = router;

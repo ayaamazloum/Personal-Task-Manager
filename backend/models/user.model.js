@@ -7,7 +7,6 @@ const taskSchema = new mongoose.Schema({
     attachments: [{ type: String }],
     column: {
         type: String,
-        required: "Column is required",
         default: "Todo"
     },
 });
