@@ -3,7 +3,7 @@ import sendRequest from "../../../core/tools/remote/request"
 import { requestMehods } from "../../../core/enums/requestMethods"
 import { useNavigate } from "react-router-dom"
 
-const LoginForm = ({handleUserLogged}) => {
+const LoginForm = () => {
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -18,7 +18,6 @@ const LoginForm = ({handleUserLogged}) => {
       const res = await sendRequest(requestMehods.POST, "/auth/login", credentials);
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
-        handleUserLogged(true);
         navigate("/");
       }
     } catch (e) {
