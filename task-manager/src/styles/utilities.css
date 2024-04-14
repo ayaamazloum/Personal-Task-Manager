@@ -225,3 +225,13 @@ input:focus {
 .close-popup-icon {
   width: 20px;
 }
+
+select {
+  width: 180px;
+  background-color: #12989829;
+}
+
+option {
+  height: 100px;
+  background-color: #fff;
+}
