@@ -26,7 +26,7 @@ const createTag = async (req, res) => {
         const updatedUser = await user.save();
         return res.status(201).send("Tag added successfully");
     } catch (error) {
-        console.error('Create board error:', error);
+        console.error('Create tag error:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -41,18 +41,52 @@ const createTask = async (req, res) => {
         const tag = board.tags.find(tag => tag._id == tagId );
         if (!tag) return res.status(404).send("Tag not found");
 
-        
         tag.tasks.push({ title: title, description: description });
         const updatedUser = await user.save();
-        return res.status(201).send("Tag added successfully");
+        return res.status(201).send("Task added successfully");
     } catch (error) {
-        console.error('Create board error:', error);
+        console.error('Create task error:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
 
 const updateTask = async (req, res) => {
+    const user = req.user;
+    const { boardId, tagId, title, description, columnId } = req.body;
+    const { id } = req.params;
+    try {
+        const board = await user.boards.find(board => board._id == boardId );
+        if (!board) return res.status(404).send("Board not found");
 
+        let column;
+        if (columnId) {
+            column = board.columns.find(column => column._id == columnId);
+            if (!column) return res.status(404).send("Column not found");
+        }
+
+        const tag = board.tags.find(tag => tag._id == tagId );
+        if (!tag) return res.status(404).send("Tag not found");
+        
+        const tasks = tag.tasks;
+        const taskIndex = tasks.findIndex((task) => task._id == id);
+        
+        if (taskIndex === -1) return res.status(404).send("Task not found");
+        const updatedTask = {
+            ...tasks[taskIndex],
+            title: title ? title : tasks[taskIndex].title,
+            description: description ? description : tasks[taskIndex].description,
+            attachments: tasks[taskIndex].attachments,
+            column: columnId ? column.name : tasks[taskIndex].column,
+        };
+        
+        tasks[taskIndex] = updatedTask;
+
+        const updatedUser = await user.save();
+        return res.status(200).send("Task unpdated successfully");
+    } catch (error) {
+        console.error('Update task error:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
 module.exports = {
