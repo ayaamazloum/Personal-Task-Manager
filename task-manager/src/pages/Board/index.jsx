@@ -1,6 +1,6 @@
 import "./style.css";
 import Logout from "../../Components/Logout";
-import Column from "./Components/Column";
+import Column from "./components/Column";
 import { useState } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 
