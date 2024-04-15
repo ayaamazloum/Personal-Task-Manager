@@ -1,9 +1,7 @@
-import React from 'react'
-
-const BoardCard = () => {
+const BoardCard = ({onClick, board}) => {
   return (
-    <div className='primary-border small-card-padding rounded pointer primary-shadow'>
-      Board Title
+    <div onClick={onClick} className='primary-border small-card-padding rounded pointer primary-shadow'>
+      {board.name}
     </div>
   )
 }

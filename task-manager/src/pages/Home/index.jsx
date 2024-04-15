@@ -5,30 +5,38 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import sendRequest from "../../core/tools/remote/request";
 import { requestMehods } from "../../core/enums/requestMethods";
-import { loadUser } from "../../Redux/userSlice";
 import { loadBoards } from "../../Redux/boardSlice";
+import { selectBoard } from "../../Redux/boardSlice";
 import { loadTasks } from "../../Redux/taskSlice";
 import { loadTasksAnalytics } from "../../Redux/taskSlice";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [newBoard, setNewBoard] = useState(false);
   const [title, setTitle] = useState(false);
 
-  const dispatch = useDispatch();
-  const globalState = useSelector((global) => global);
+  const navigate = useNavigate();
 
-  console.log(globalState);
+  const dispatch = useDispatch();
+  const boardState = useSelector((global) => global.board);
+
+  console.log(boardState);
+
+  const handleSelectBoard = (board) => {
+    console.log("jj");
+    dispatch(selectBoard(board));
+    navigate(`/board/${board.id}`);
+  };
 
   useEffect(() => {
     const getUser = async () => {
       const { data } = await sendRequest(requestMehods.GET, "/user");
-      
-      const { user } = data;
-      const { firstName, lastName, username } = data.user;
-      dispatch(loadUser({ firstName, lastName, username }));
 
+      const { user } = data;
+
+      console.log(user.boards);
       const { boards } = user;
-      dispatch(loadBoards(boards));
+      dispatch(loadBoards({ boards }));
       
       const tasks = [];
       boards.forEach((board) => {
@@ -57,9 +65,9 @@ const Home = () => {
         + New Board
       </button>
       <div className="flex row center wrap gap-30 full-height">
-        <BoardCard />
-        <BoardCard />
-        <BoardCard />
+        {boardState.boards.map((board) => {
+          return <BoardCard key={board.id} onClick={()=>handleSelectBoard(board)} board={board} />
+        })}
       </div>
 
       {newBoard && (

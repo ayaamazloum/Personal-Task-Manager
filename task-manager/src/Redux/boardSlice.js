@@ -12,19 +12,19 @@ const boardSlice = createSlice({
         loadBoards: (state, action) => {
             const { payload } = action;
       
-            state.boards = payload.map((board) => {
-              const { id, name } = board;
+            state.boards = payload.boards.map((board) => {
+              const { _id, title } = board;
       
               return {
-                id,
-                name,
+                id: _id,
+                name: title,
               };
             });
         },
         selectBoard: (state, action) => {
             const { payload } = action;
       
-            const selected = state.boards.find((board) => board.id === payload.id);
+            const selected = state.boards.find((board) => board.id === payload._id);
       
             state.currentSelected = selected;
         },
