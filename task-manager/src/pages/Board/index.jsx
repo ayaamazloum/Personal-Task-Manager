@@ -2,19 +2,28 @@ import "./style.css";
 import Logout from "../../Components/Logout";
 import Column from "./components/Column";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import sendRequest from "../../core/tools/remote/request";
+import { requestMehods } from "../../core/enums/requestMethods";
 
 const Board = () => {
   const [creatingTask, setCreatingTask] = useState(false);
   const [addingTag, setAddingTag] = useState(false);
   const [newTagName, setNewTagName] = useState(false);
+  const [selectedTag, setSelectedTag] = useState('');
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
     tag: "",
   });
 
-  const [selectedTag, setSelectedTag] = useState('');
-
+  const dispatch = useDispatch();
+  
+  const boardState = useSelector((global) => global.board);
+  console.log(boardState);
+  console.log(boardState.currentSelected);
+  const currentBoard = boardState.currentSelected;
+  
   const handleChange = (event) => {
     setSelectedTag(event.target.value);
   };
@@ -22,7 +31,7 @@ const Board = () => {
   return (
     <div className="flex column start-center mt-30 gap-40">
       <Logout />
-      <h2>Board Title</h2>
+      <h2>{currentBoard.name}</h2>
 
       <div className="flex center gap-40 wrap">
         <div className="flex center gap-20">

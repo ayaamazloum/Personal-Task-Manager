@@ -18,8 +18,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const boardState = useSelector((global) => global.board);
 
-  console.log(boardState);
-
   const handleSelectBoard = (board) => {
     dispatch(selectBoard(board));
     navigate(`/board/${board.id}`);
@@ -42,10 +40,8 @@ const Home = () => {
     const getUser = async () => {
       const { data } = await sendRequest(requestMehods.GET, "/user");
 
-      const { user } = data;
-
-      console.log(user.boards);
-      const { boards } = user;
+      const boards = data.user.boards;
+      
       dispatch(loadBoards({ boards }));
       
       const tasks = [];
