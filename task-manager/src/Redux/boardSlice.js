@@ -28,9 +28,14 @@ const boardSlice = createSlice({
       
             state.currentSelected = selected;
         },
+        addBoard: (state, action) => {
+            const { payload } = action;
+
+            state.boards.push(payload);
+        }
     }
 });
 
 export default boardSlice.reducer;
 
-export const { loadBoards, selectBoard } = boardSlice.actions;
+export const { loadBoards, selectBoard, addBoard } = boardSlice.actions;

@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import sendRequest from "../../core/tools/remote/request";
 import { requestMehods } from "../../core/enums/requestMethods";
-import { loadBoards } from "../../Redux/boardSlice";
-import { selectBoard } from "../../Redux/boardSlice";
+import { loadBoards, selectBoard, addBoard } from "../../Redux/boardSlice";
 import { loadTasks } from "../../Redux/taskSlice";
 import { loadTasksAnalytics } from "../../Redux/taskSlice";
 import { useNavigate } from "react-router-dom";
@@ -16,17 +15,28 @@ const Home = () => {
   const [title, setTitle] = useState(false);
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const boardState = useSelector((global) => global.board);
 
   console.log(boardState);
 
   const handleSelectBoard = (board) => {
-    console.log("jj");
     dispatch(selectBoard(board));
     navigate(`/board/${board.id}`);
   };
+
+  const handleCreateBoard = async () => {
+    const { data } = await sendRequest(requestMehods.POST, "/board", { title });
+
+    const newBoard = {
+      id: data.board._id,
+      name: title,
+    };
+    dispatch(addBoard(newBoard));
+
+    setNewBoard(false);
+    setTitle('');
+  }
 
   useEffect(() => {
     const getUser = async () => {
@@ -90,7 +100,11 @@ const Home = () => {
                 type="text"
                 placeholder="Board title"
               />
-              <button className="primary-bg white-text button-padding bold semi-rounded sm-text">Create</button>
+              {title.length > 0 &&
+                <button
+                  onClick={handleCreateBoard}
+                  className="primary-bg white-text button-padding bold semi-rounded sm-text">Create</button>
+              }
             </div>
           </div>
         </div>

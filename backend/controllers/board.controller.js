@@ -5,7 +5,10 @@ const createBoard = async (req, res) => {
     try {
         user.boards?.push({ title: req.body.title });
         const updatedUser = await user.save();
-        return res.status(201).send("Board added successfully");
+
+        const newBoard = updatedUser.boards[updatedUser.boards.length - 1];
+
+        return res.status(201).json({ message: "Board added successfully", board: newBoard });
     } catch (error) {
         console.error('Create board error:', error);
         return res.status(500).json({ message: 'Internal server error' });
