@@ -2,7 +2,6 @@ import "./style.css";
 import Logout from "../../Components/Logout";
 import Column from "./components/Column";
 import { useState } from "react";
-import Dropdown from 'react-bootstrap/Dropdown';
 
 const Board = () => {
   const [creatingTask, setCreatingTask] = useState(false);
@@ -19,7 +18,7 @@ const Board = () => {
   const handleChange = (event) => {
     setSelectedTag(event.target.value);
   };
-
+  
   return (
     <div className="flex column start-center mt-30 gap-40">
       <Logout />

@@ -1,11 +1,50 @@
 import "./style.css";
 import Logout from "../../Components/Logout";
 import BoardCard from "./Components/BoardCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import sendRequest from "../../core/tools/remote/request";
+import { requestMehods } from "../../core/enums/requestMethods";
+import { loadUser } from "../../Redux/userSlice";
+import { loadBoards } from "../../Redux/boardSlice";
+import { loadTasks } from "../../Redux/taskSlice";
+import { loadTasksAnalytics } from "../../Redux/taskSlice";
 
 const Home = () => {
   const [newBoard, setNewBoard] = useState(false);
   const [title, setTitle] = useState(false);
+
+  const dispatch = useDispatch();
+  const globalState = useSelector((global) => global);
+
+  console.log(globalState);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await sendRequest(requestMehods.GET, "/user");
+      
+      const { user } = data;
+      const { firstName, lastName, username } = data.user;
+      dispatch(loadUser({ firstName, lastName, username }));
+
+      const { boards } = user;
+      dispatch(loadBoards(boards));
+      
+      const tasks = [];
+      boards.forEach((board) => {
+        board.tags.forEach((tag) => {
+          tag.tasks.forEach((task) => {
+            tasks.push({ ...task, boardId: board._id, tagId: tag._id });
+          });
+        });
+      });
+
+      dispatch(loadTasks({ tasks }));
+      dispatch(loadTasksAnalytics());
+    };
+
+    getUser();
+  }, []);
 
   return (
     <div className="page home center flex column start-center gap-70 mt-30">
