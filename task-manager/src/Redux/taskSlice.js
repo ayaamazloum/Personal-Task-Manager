@@ -39,15 +39,15 @@ const taskSlice = createSlice({
         addTask: (state, action) => {
             const { payload } = action;
             state.tasks.push(payload);
+            console.log(current(state));
         },
         updateOneTask: (state, action) => {
             const { payload } = action;
             state.tasks = state.tasks.map((task) => (task.id === payload.id ? payload : task));
-            //console.log(current(state));
         },
     }
 });
         
 export default taskSlice.reducer;
 
-export const { loadTasks, loadTasksAnalytics, updateOneTask } = taskSlice.actions;
+export const { loadTasks, loadTasksAnalytics, addTask, updateOneTask } = taskSlice.actions;

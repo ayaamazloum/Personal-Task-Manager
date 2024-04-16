@@ -46,7 +46,12 @@ const createTask = async (req, res) => {
 
         tag.tasks.push({ title: title, description: description });
         const updatedUser = await user.save();
-        return res.status(201).send("Task added successfully");
+
+        const updatedBoard = await updatedUser.boards.find(board => board._id == boardId);
+        const updatedTag = await updatedBoard.tags.find(tag => tag._id == tagId);
+        const newTask = await updatedTag.tasks[updatedTag.tasks.length - 1];
+
+        return res.status(201).json({ message: "Task added successfully", task: newTask });
     } catch (error) {
         console.error('Create task error:', error);
         return res.status(500).json({ message: 'Internal server error' });

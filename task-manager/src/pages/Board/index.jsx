@@ -4,17 +4,22 @@ import Column from "./components/Column";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { selectBoard, addBoard } from "../../Redux/boardSlice";
+import { selectBoard } from "../../Redux/boardSlice";
+import { addTask } from "../../Redux/taskSlice";
+import sendRequest from "../../core/tools/remote/request";
+import { requestMehods } from "../../core/enums/requestMethods";
 
 const Board = () => {
   const [creatingTask, setCreatingTask] = useState(false);
   const [addingTag, setAddingTag] = useState(false);
   const [newTagName, setNewTagName] = useState(false);
-  const [selectedTag, setSelectedTag] = useState('');
+  const [selectedTagId, setSelectedTagId] = useState();
+
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
-    tag: "",
+    boardId: null,
+    tagId: null,
   });
 
   const { boardId } = useParams();
@@ -28,21 +33,31 @@ const Board = () => {
   const currentBoard = boardState.currentSelected;
 
   const tags = tagState.tags.filter((tag) => tag.boardId === boardId);
-  console.log(tags);
-  
-  const columns = columnState.columns.filter((column) => column.boardId === boardId);
-  console.log(columns);
-  
-  const handleChange = (event) => {
-    setSelectedTag(event.target.value);
+
+  const columns = columnState.columns.filter(
+    (column) => column.boardId === boardId
+  );
+
+  const handleCreateTask = async () => {
+    if (newTask.title === "" || newTask.description === "") return;
+
+    try {
+      const { data } = await sendRequest(requestMehods.POST, '/board/task', newTask);
+      
+      setCreatingTask(false);
+      setNewTask({ ...newTask, title: "", description: ""});
+      dispatch(addTask({ ...data.task, boardId: boardId, tagId: selectedTagId }));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
     const board = boardState.boards.find((board) => board.id === boardId);
     dispatch(selectBoard(board));
-    console.log("dfdvdfecerce"+currentBoard);
+    setNewTask({ ...newTask, boardId: boardId, tagId: tags[0]?.id});
   }, [boardState.boards]);
-  
+
   return (
     <div className="flex column start-center mt-30 gap-40">
       <Logout />
@@ -52,7 +67,9 @@ const Board = () => {
         <div className="flex center gap-20">
           <select className="semi-rounded sm-text padding">
             <option value="">Board Tags</option>
-            {tags.map((tag) => <option>{tag.name}</option>)}
+            {tags.map((tag, i) => (
+              <option key={i}>{tag.name}</option>
+            ))}
           </select>
         </div>
 
@@ -62,7 +79,7 @@ const Board = () => {
         >
           + Add Tag
         </button>
-        
+
         <button
           onClick={() => setCreatingTask(true)}
           className="primary-bg white-text button-padding bold semi-rounded sm-text"
@@ -71,8 +88,10 @@ const Board = () => {
         </button>
       </div>
 
-      <div className="flex row center gap-20 wrap">
-        {columns.map((column, i) => <Column key={i} column={column} />)}
+      <div className="flex row gap-20 wrap">
+        {columns.map((column, i) => (
+          <Column key={i} column={column} />
+        ))}
       </div>
 
       {addingTag && (
@@ -118,13 +137,17 @@ const Board = () => {
             </div>
             <div className="popup-body flex column mt-30 gap-30 center">
               <input
-                onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                onChange={(e) =>
+                  setNewTask({ ...newTask, title: e.target.value })
+                }
                 className="border button-padding semi-rounded sm-text"
                 type="text"
                 placeholder="Title"
               />
               <textarea
-                onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                onChange={(e) =>
+                  setNewTask({ ...newTask, description: e.target.value })
+                }
                 className="border button-padding semi-rounded sm-text"
                 type="text"
                 placeholder="Description"
@@ -133,15 +156,17 @@ const Board = () => {
                 <label htmlFor="selectMenu">Choose a tag</label>
                 <select
                   className="semi-rounded sm-text padding"
-                  value={selectedTag}
-                  onChange={handleChange}
+                  onChange={(e) => setSelectedTagId(e.target.value)}
                 >
-                  <option value="option1">Tag 1</option>
-                  <option value="option2">Tag 2</option>
-                  <option value="option3">Tag 3</option>
+                  {tags.map((tag) => (
+                    <option value={tag.id}>{tag.name}</option>
+                  ))}
                 </select>
               </div>
-              <button className="primary-bg white-text button-padding bold semi-rounded sm-text">
+              <button
+                onClick={handleCreateTask}
+                className="primary-bg white-text button-padding bold semi-rounded sm-text"
+              >
                 Create
               </button>
             </div>
