@@ -7,7 +7,7 @@ const columnSlice = createSlice({
         loadColumns: (state, action) => {
             const { payload } = action;
       
-            state.columns = payload.columns;
+            state.columns = payload;
         },
         addColumn: (state, action) => {
             const { payload } = action;

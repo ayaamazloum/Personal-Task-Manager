@@ -22,17 +22,28 @@ const Board = () => {
   const { boardId } = useParams();
 
   const dispatch = useDispatch();
+
   const boardState = useSelector((global) => global.board);
+  const tagState = useSelector((global) => global.tag);
+  const columnState = useSelector((global) => global.column);
+
   const currentBoard = boardState.currentSelected;
+
+  const tags = tagState.tags.filter((tag) => tag.boardId === boardId);
+  console.log(tags);
+  
+  const columns = columnState.columns.filter((column) => column.boardId === boardId);
+  console.log(columns);
   
   const handleChange = (event) => {
     setSelectedTag(event.target.value);
   };
 
   useEffect(() => {
-    dispatch(selectBoard(boardId));
-    console.log(currentBoard);
-  }, []);
+    const board = boardState.boards.find((board) => board.id === boardId);
+    dispatch(selectBoard(board));
+    console.log("dfdvdfecerce"+currentBoard);
+  }, [boardState.boards]);
   
   return (
     <div className="flex column start-center mt-30 gap-40">
@@ -43,9 +54,7 @@ const Board = () => {
         <div className="flex center gap-20">
           <select className="semi-rounded sm-text padding">
             <option value="">Board Tags</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            {tags.map((tag) => <option>{tag.name}</option>)}
           </select>
         </div>
 
@@ -65,10 +74,7 @@ const Board = () => {
       </div>
 
       <div className="flex row center gap-20 wrap">
-        <Column />
-        <Column />
-        <Column />
-        <Column />
+        {columns.map((column, i) => <Column key={i} column={column} />)}
       </div>
 
       {addingTag && (

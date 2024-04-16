@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import Board from "./pages/Board";
 import { useDispatch, useSelector } from "react-redux";
 import { loadBoards } from "./Redux/boardSlice";
+import { loadTags } from "./Redux/tagSlice";
+import { loadColumns } from "./Redux/columnSlice";
 import { loadTasks } from "./Redux/taskSlice";
 import { loadTasksAnalytics } from "./Redux/taskSlice";
 import sendRequest from "./core/tools/remote/request";
@@ -23,8 +25,23 @@ const App = () => {
       const { data } = await sendRequest(requestMehods.GET, "/user");
 
       const boards = data.user.boards;
-      
       dispatch(loadBoards({ boards }));
+
+      const tags = [];
+      boards.forEach((board) => {
+        board.tags.forEach((tag) => {
+          tags.push({ id: tag._id, name: tag.name, boardId: board._id });
+        });
+      });
+      dispatch(loadTags(tags));
+
+      const columns = [];
+      boards.forEach((board) => {
+        board.columns.forEach((column) => {
+          columns.push({ name: column, boardId: board._id });
+        });
+      });
+      dispatch(loadColumns(columns));
       
       const tasks = [];
       boards.forEach((board) => {
@@ -34,7 +51,6 @@ const App = () => {
           });
         });
       });
-
       dispatch(loadTasks({ tasks }));
       dispatch(loadTasksAnalytics());
     };
