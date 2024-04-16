@@ -1,7 +1,7 @@
 import "./styles/utilities.css";
 import "./styles/colors.css";
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Auth from "./pages/Auth";
@@ -17,12 +17,14 @@ import sendRequest from "./core/tools/remote/request";
 import { requestMehods } from "./core/enums/requestMethods";
 
 const App = () => {
+  const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   const boardState = useSelector((global) => global.board);
 
   useEffect(() => {
     const getUser = async () => {
       const { data } = await sendRequest(requestMehods.GET, "/user");
+      setLoaded(true);
 
       const boards = data.user.boards;
       dispatch(loadBoards({ boards }));
@@ -55,7 +57,7 @@ const App = () => {
       dispatch(loadTasksAnalytics());
     };
 
-    if(boardState.boards.length === 0)  getUser();
+    if(!loaded) getUser();
   });
 
   return (

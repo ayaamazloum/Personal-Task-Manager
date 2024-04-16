@@ -7,7 +7,7 @@ const initialState = {
 
 const boardSlice = createSlice({
     initialState: initialState,
-    name: "boards",
+    name: "board",
     reducers: {
         loadBoards: (state, action) => {
             const { payload } = action;

@@ -3,8 +3,6 @@ import Logout from "../../Components/Logout";
 import Column from "./components/Column";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import sendRequest from "../../core/tools/remote/request";
-import { requestMehods } from "../../core/enums/requestMethods";
 import { useParams } from "react-router-dom";
 import { selectBoard, addBoard } from "../../Redux/boardSlice";
 

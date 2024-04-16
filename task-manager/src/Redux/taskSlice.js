@@ -1,5 +1,5 @@
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
     tasks: [],
@@ -43,10 +43,11 @@ const taskSlice = createSlice({
         updateOneTask: (state, action) => {
             const { payload } = action;
             state.tasks = state.tasks.map((task) => (task.id === payload.id ? payload : task));
+            //console.log(current(state));
         },
     }
 });
         
 export default taskSlice.reducer;
 
-export const { loadTasks, loadTasksAnalytics } = taskSlice.actions;
+export const { loadTasks, loadTasksAnalytics, updateOneTask } = taskSlice.actions;
