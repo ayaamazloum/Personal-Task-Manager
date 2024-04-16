@@ -23,8 +23,11 @@ const boardSlice = createSlice({
         },
         selectBoard: (state, action) => {
             const { payload } = action;
-      
-            state.currentSelected = payload;
+            const selected = state.boards.find((board) => board.id === payload);
+            return {
+                ...state,
+                currentSelected: selected
+            };
         },
         addBoard: (state, action) => {
             const { payload } = action;

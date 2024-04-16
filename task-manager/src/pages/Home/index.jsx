@@ -5,9 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import sendRequest from "../../core/tools/remote/request";
 import { requestMehods } from "../../core/enums/requestMethods";
-import { loadBoards, selectBoard, addBoard } from "../../Redux/boardSlice";
-import { loadTasks } from "../../Redux/taskSlice";
-import { loadTasksAnalytics } from "../../Redux/taskSlice";
+import { addBoard } from "../../Redux/boardSlice";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -17,11 +15,6 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const boardState = useSelector((global) => global.board);
-
-  const handleSelectBoard = (board) => {
-    dispatch(selectBoard(board));
-    navigate(`/board/${board.id}`);
-  };
 
   const handleCreateBoard = async () => {
     const { data } = await sendRequest(requestMehods.POST, "/board", { title });
@@ -36,30 +29,6 @@ const Home = () => {
     setTitle('');
   }
 
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await sendRequest(requestMehods.GET, "/user");
-
-      const boards = data.user.boards;
-      
-      dispatch(loadBoards({ boards }));
-      
-      const tasks = [];
-      boards.forEach((board) => {
-        board.tags.forEach((tag) => {
-          tag.tasks.forEach((task) => {
-            tasks.push({ ...task, boardId: board._id, tagId: tag._id });
-          });
-        });
-      });
-
-      dispatch(loadTasks({ tasks }));
-      dispatch(loadTasksAnalytics());
-    };
-
-    getUser();
-  }, []);
-
   return (
     <div className="page home center flex column start-center gap-70 mt-30">
       <Logout />
@@ -72,7 +41,7 @@ const Home = () => {
       </button>
       <div className="flex row center wrap gap-30 full-height">
         {boardState.boards.map((board) => {
-          return <BoardCard key={board.id} onClick={()=>handleSelectBoard(board)} board={board} />
+          return <BoardCard key={board.id} onClick={()=>navigate(`/board/${board.id}`)} board={board} />
         })}
       </div>
 
