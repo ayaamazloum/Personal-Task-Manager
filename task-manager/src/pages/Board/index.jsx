@@ -37,7 +37,7 @@ const Board = () => {
   return (
     <div className="flex column start-center mt-30 gap-40">
       <Logout />
-      <h2>{currentBoard.name}</h2>
+      <h2>{currentBoard?.name}</h2>
 
       <div className="flex center gap-40 wrap">
         <div className="flex center gap-20">
